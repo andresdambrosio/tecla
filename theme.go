@@ -25,6 +25,8 @@ type Theme struct {
 	Pane, PaneFrame, PaneCode, PaneDim tcell.Style
 	Scroll, Thumb                      tcell.Style
 
+	DiffAdd, DiffDel, DiffAddHi, DiffDelHi, DiffFill tcell.Style
+
 	Box, DlgBox Box
 	ShadowW     int
 	BtnL, BtnR  string
@@ -100,6 +102,12 @@ func dosTheme() Theme {
 		Scroll:    st(blue, gray),
 		Thumb:     st(black, gray),
 
+		DiffAdd:   st(gray, 0x005500),
+		DiffDel:   st(gray, 0x660000),
+		DiffAddHi: st(black, bgreen),
+		DiffDelHi: st(white, 0xCC2222).Bold(true),
+		DiffFill:  st(0x2222CC, blue),
+
 		Box: Single, DlgBox: Single, ShadowW: 2,
 		BtnL: "< ", BtnR: " >",
 		Upper:  true,
@@ -158,6 +166,12 @@ func turboTheme() Theme {
 		Scroll:    st(blue, cyan),
 		Thumb:     st(blue, cyan),
 
+		DiffAdd:   st(yellow, 0x005500),
+		DiffDel:   st(yellow, 0x660000),
+		DiffAddHi: st(black, bgreen),
+		DiffDelHi: st(white, 0xCC2222).Bold(true),
+		DiffFill:  st(0x2222CC, blue),
+
 		Box: Double, DlgBox: Double, ShadowW: 2,
 		BtnL: "[ ", BtnR: " ]",
 		Upper:  true,
@@ -211,6 +225,12 @@ func macTheme() Theme {
 		Scroll:    st(black, white),
 		Thumb:     st(black, white),
 
+		DiffAdd:   st(black, g4),
+		DiffDel:   st(black, 0xD8D8D8),
+		DiffAddHi: st(white, black),
+		DiffDelHi: st(white, g1).StrikeThrough(true),
+		DiffFill:  st(g3, white),
+
 		Box: Single, DlgBox: Double, ShadowW: 1,
 		BtnL: "( ", BtnR: " )",
 		MacTitle: true,
@@ -256,6 +276,12 @@ func phosphor(name string, bright, mid, dim, bg, tint int32) Theme {
 		PaneDim:   st(dim, bg),
 		Scroll:    st(dim, bg),
 		Thumb:     st(bright, bg),
+
+		DiffAdd:   st(bright, tint),
+		DiffDel:   st(mid, tint),
+		DiffAddHi: st(bg, bright),
+		DiffDelHi: st(bg, mid).StrikeThrough(true),
+		DiffFill:  st(dim, bg),
 
 		Box: Single, DlgBox: Double, ShadowW: 1,
 		BtnL: "[ ", BtnR: " ]",

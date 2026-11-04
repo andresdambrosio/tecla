@@ -14,6 +14,8 @@ con **Claude Code** (`claude`) o **Codex** (`codex`) adentro.
 - Árbol: Enter abre, ←→ pliega, `r` usa la carpeta como raíz, Retroceso sube
 - Terminal: un shell de verdad (PTY); F12 / Ctrl+F9 ejecuta el archivo actual
 - Agente: Ctrl+K para escribir, Tab alterna Agente/Pregunta, F5 aplica código
+- Comparar: menú Comparar, `c` en el árbol o `tecla --diff a b`; lado a lado o
+  unificada, con las palabras que cambiaron resaltadas (`n`/`p` saltan entre cambios)
 - Temas (F9): DOS · Turbo · Mac · Ámbar · Fósforo · F1: todos los atajos
 
 Configuración en `~/.config/tecla/config`.

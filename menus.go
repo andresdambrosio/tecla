@@ -66,6 +66,12 @@ func buildMenus(themes []Theme) []Menu {
 			{Label: "Ir a línea...", Key: "Ctrl+G", Do: (*App).gotoDialog},
 		}},
 		ver,
+		{Title: "Comparar", Hot: 0, Items: []MenuItem{
+			{Label: "Archivo actual con otro...", Do: (*App).compareOther},
+			{Label: "Dos archivos...", Do: (*App).compareTwo},
+			{Label: "Versión guardada", Do: (*App).compareSaved},
+			{Label: "Portapapeles", Do: (*App).compareClipboard},
+		}},
 		{Title: "Ejecutar", Hot: 1, Items: []MenuItem{
 			{Label: "Ejecutar archivo", Key: "F12", Do: (*App).runFile},
 			{Label: "Ir a la terminal", Key: "F7", Do: (*App).toggleTermFocus},
@@ -233,6 +239,7 @@ var helpText = strings.Split(`
  ARCHIVOS (columna izquierda)
  Enter    Abrir archivo / plegar carpeta     r          Usar carpeta como raíz
  ← →      Plegar / desplegar                 Retroceso  Subir a la carpeta padre
+ c        Comparar el archivo elegido con el que está en el editor
 
  ARCHIVO                          EDICIÓN
  Ctrl+N   Nuevo                   Ctrl+Z / Ctrl+Y   Deshacer / Rehacer
@@ -256,6 +263,11 @@ var helpText = strings.Split(`
 
  TERMINAL
  Es un shell de verdad: todas las teclas van al shell, salvo F1–F12.
+
+ COMPARAR (menú Comparar, o tecla --diff a b)
+ n / p    Cambio siguiente / anterior        z    Plegar / mostrar líneas iguales
+ Tab      Lado a lado / unificada            w    Ignorar espacios
+ ← →      Desplazar                          Esc  Cerrar
 
  VER
  F9       Cambiar tema: DOS · Turbo · Mac · Ámbar · Fósforo

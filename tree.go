@@ -209,6 +209,10 @@ func (a *App) treeKey(ev *tcell.EventKey) {
 			if cur.dir {
 				a.setRoot(cur.path)
 			}
+		case 'c', 'C':
+			if !cur.dir {
+				a.compareWith(cur.path)
+			}
 		case 'q':
 			a.focus = focEditor
 		}

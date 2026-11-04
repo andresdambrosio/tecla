@@ -282,6 +282,8 @@ type OpenDialog struct {
 	sel, off int
 	dir      string
 	err      string
+	Title    string
+	Pick     func(a *App, path string) // si está, elige un archivo en vez de abrirlo
 }
 
 func NewOpenDialog(a *App) *OpenDialog {
@@ -291,9 +293,25 @@ func NewOpenDialog(a *App) *OpenDialog {
 			init = d + "/"
 		}
 	}
-	d := &OpenDialog{f: newField(init)}
+	d := &OpenDialog{f: newField(init), Title: "Abrir"}
 	d.refresh()
 	return d
+}
+
+// NewPickDialog es el mismo diálogo, pero para elegir un archivo sin abrirlo en el editor.
+func NewPickDialog(a *App, title string, pick func(*App, string)) *OpenDialog {
+	d := NewOpenDialog(a)
+	d.Title, d.Pick = title, pick
+	return d
+}
+
+func (d *OpenDialog) done(a *App, p string) {
+	a.dlg = nil
+	if d.Pick != nil {
+		d.Pick(a, p)
+		return
+	}
+	a.openPath(p)
 }
 
 func (d *OpenDialog) typedDir() string {
@@ -372,8 +390,7 @@ func (d *OpenDialog) choose(a *App, e entry, open bool) {
 	} else {
 		p := td + e.name
 		if open {
-			a.dlg = nil
-			a.openPath(expandHome(p))
+			d.done(a, expandHome(p))
 			return
 		}
 		d.f.set(p)
@@ -409,8 +426,7 @@ func (d *OpenDialog) Key(a *App, ev *tcell.EventKey) {
 				d.refresh()
 				return
 			case err == nil, len(d.list) == 0:
-				a.dlg = nil
-				a.openPath(t)
+				d.done(a, t)
 				return
 			}
 		}
@@ -429,7 +445,7 @@ func (d *OpenDialog) Paste(s string) { d.f.insert(s); d.refresh() }
 
 func (d *OpenDialog) Draw(a *App) {
 	T := a.T()
-	x, y, w, h := a.dialogBox(70, 22, "Abrir")
+	x, y, w, h := a.dialogBox(70, 22, d.Title)
 	a.put(x+3, y+2, "Nombre del archivo:", T.Dialog)
 	abs, _ := filepath.Abs(d.dir)
 	if home, err := os.UserHomeDir(); err == nil && strings.HasPrefix(abs, home) {
@@ -466,7 +482,11 @@ func (d *OpenDialog) Draw(a *App) {
 		}
 		a.putw(lx+1, ly+i, name, s, lw-2)
 	}
-	a.putw(x+3, y+h-3, "↑↓ elegir · Tab completar · Enter abrir · un nombre nuevo crea el archivo", T.Dialog, w-6)
-	a.buttons(x, y+h-2, w, []string{"Abrir", "Cancelar"}, 0)
+	hint, ok := "↑↓ elegir · Tab completar · Enter abrir · un nombre nuevo crea el archivo", "Abrir"
+	if d.Pick != nil {
+		hint, ok = "↑↓ elegir · Tab completar · Enter aceptar", "Elegir"
+	}
+	a.putw(x+3, y+h-3, hint, T.Dialog, w-6)
+	a.buttons(x, y+h-2, w, []string{ok, "Cancelar"}, 0)
 	d.f.draw(a, x+3, y+3, w-6, T.Field)
 }

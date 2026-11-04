@@ -636,7 +636,7 @@ func (a *App) drawStatus(w, h int) {
 	case focTerm:
 		left = " Terminal: F6 otro panel · F7 volver al editor · F12 ejecutar archivo"
 	case focTree:
-		left = " Archivos: Enter abrir · ←→ plegar · r usar como raíz · Retroceso subir · Esc volver"
+		left = " Archivos: Enter abrir · ←→ plegar · c comparar · r usar como raíz · Retroceso subir · Esc volver"
 	}
 	if a.msg != "" && time.Since(a.msgAt) < 5*time.Second {
 		left = " " + a.msg
@@ -917,6 +917,10 @@ func (a *App) handleMouse(ev *tcell.EventMouse) {
 		if btn&tcell.WheelUp != 0 {
 			d = -3
 		}
+		if v, ok := a.dlg.(*DiffView); ok {
+			v.Wheel(d)
+			return
+		}
 		if a.dlg != nil || a.menuOpen {
 			return
 		}
@@ -953,6 +957,9 @@ func (a *App) handleMouse(ev *tcell.EventMouse) {
 		return
 	}
 	a.mouseDown = true
+	if v, ok := a.dlg.(*DiffView); ok {
+		v.Click(x, y)
+	}
 	if a.dlg != nil {
 		return
 	}
