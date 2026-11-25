@@ -16,6 +16,9 @@ con **Claude Code** (`claude`) o **Codex** (`codex`) adentro.
 - Agente: Ctrl+K para escribir, Tab alterna Agente/Pregunta, F5 aplica código
 - Comparar: menú Comparar, `c` en el árbol o `tecla --diff a b`; lado a lado o
   unificada, con las palabras que cambiaron resaltadas (`n`/`p` saltan entre cambios)
+- Vista previa Markdown (Ctrl+P): títulos, listas, tablas, código y fórmulas
+  LaTeX (`$…$`, `$$…$$`, `\(…\)`, `\[…\]`) dibujadas con Unicode: fracciones,
+  raíces, sumatorias con límites, matrices, `cases`, `aligned`…
 - Temas (F9): DOS · Turbo · Mac · Ámbar · Fósforo · F1: todos los atajos
 
 Configuración en `~/.config/tecla/config`.

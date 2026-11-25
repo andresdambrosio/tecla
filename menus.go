@@ -26,6 +26,7 @@ func buildMenus(themes []Theme) []Menu {
 		{Label: "Árbol de archivos", Key: "Ctrl+B", Do: (*App).toggleTree, Check: func(a *App) bool { return a.showTree }},
 		{Label: "Terminal", Do: (*App).toggleTerm, Check: func(a *App) bool { return a.showTerm }},
 		{Label: "Agente (columna derecha)", Key: "F4", Do: (*App).togglePane, Check: func(a *App) bool { return a.pane }},
+		{Label: "Vista previa Markdown", Key: "Ctrl+P", Do: (*App).togglePreview, Check: func(a *App) bool { _, ok := a.dlg.(*MarkdownView); return ok }},
 		{Label: "Siguiente panel", Key: "F6", Do: func(a *App) { a.cycleFocus(false) }},
 		{Label: "Tema siguiente", Key: "F9", Do: (*App).nextTheme},
 		sep,
@@ -268,6 +269,10 @@ var helpText = strings.Split(`
  n / p    Cambio siguiente / anterior        z    Plegar / mostrar líneas iguales
  Tab      Lado a lado / unificada            w    Ignorar espacios
  ← →      Desplazar                          Esc  Cerrar
+
+ VISTA PREVIA MARKDOWN (archivos .md)
+ Ctrl+P   Ver el Markdown con formato y fórmulas ($…$, $$…$$, \(…\), \[…\])
+ ↑↓ PgUp/PgDn  Desplazar · ←→ fórmulas anchas · Ctrl+P / Esc  volver a editar
 
  VER
  F9       Cambiar tema: DOS · Turbo · Mac · Ámbar · Fósforo

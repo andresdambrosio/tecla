@@ -787,6 +787,9 @@ func (a *App) handleKey(ev *tcell.EventKey) {
 	case tcell.KeyCtrlG:
 		a.gotoDialog()
 		return
+	case tcell.KeyCtrlP:
+		a.togglePreview()
+		return
 	}
 	switch a.focus {
 	case focAgent:
@@ -917,7 +920,7 @@ func (a *App) handleMouse(ev *tcell.EventMouse) {
 		if btn&tcell.WheelUp != 0 {
 			d = -3
 		}
-		if v, ok := a.dlg.(*DiffView); ok {
+		if v, ok := a.dlg.(interface{ Wheel(int) }); ok {
 			v.Wheel(d)
 			return
 		}
